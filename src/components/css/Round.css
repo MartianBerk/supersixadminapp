@@ -1,0 +1,21 @@
+.rounds {
+    background-color: #454242;
+    color: #ccccc3;
+    width: 100%;
+    margin: auto;
+}
+
+.currentround, .historicround {
+    overflow: hidden;
+}
+
+.currentround-section {
+    float: left;
+    width: 25%;
+}
+
+.historicround-section {
+    float: left;
+    padding-left: 5px;
+    width: 16%;
+}
