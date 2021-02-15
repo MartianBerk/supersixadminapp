@@ -1,0 +1,47 @@
+.matches-container {
+    background-color: #454242;
+    color: #ccccc3;
+    height: 90%;
+    overflow-y: scroll;
+}
+
+.matchselector {
+    width: 50%;
+    margin: auto;
+    float: left;
+}
+
+.matchsubmission {
+    width: 50%;
+    float: left;
+}
+
+.matchselector-load input {
+    background-color: #454242;
+    color: #ccccc3;
+    font-weight: bold;
+    text-align: center;
+}
+
+.matchselector-button {
+    background-color: #454242;
+    color: #ccccc3;
+    font-weight: bold;
+    width: 125px;
+    height: 25px;
+    margin: auto;
+    margin-left: 20px;
+}
+
+.matchselector-submit-match {
+    font-size: 15px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.matchselector-submit-match-section {
+    float: left;
+    width: 50%;
+    margin-right: -26%;
+    margin-left: 12%;
+}
