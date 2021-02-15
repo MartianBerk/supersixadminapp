@@ -132,8 +132,7 @@ class Matches extends Component {
             body: JSON.stringify(selected)
         })
         .then(response => response.json())
-        .then(data => alert(JSON.stringify(data)))
-        .catch(e => { alert(e) });
+        .catch(/* do nothing */);
     }
 
     handleMatchAdd(e) {
