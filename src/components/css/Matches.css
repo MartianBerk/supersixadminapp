@@ -23,7 +23,7 @@
     text-align: center;
 }
 
-.matchselector-button {
+.matchselector-button, .matchsubmission-button {
     background-color: #454242;
     color: #ccccc3;
     font-weight: bold;
@@ -44,4 +44,23 @@
     width: 50%;
     margin-right: -26%;
     margin-left: 12%;
+}
+.matchsubmission {
+    width: 50%;
+}
+
+.matchsubmission-match {
+    overflow: hidden;
+}
+
+.matchsubmission-match-section {
+    float: left;
+    width: 50%;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.matchsubmission-match-id {
+    margin-left: 75px;
+    margin-right: -275px;
 }

@@ -8,8 +8,10 @@ class Matches extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            date: null,
             leagues: {},
             matches: [],
+            matchLookup: {},
             selected: []
         }
 
@@ -18,6 +20,7 @@ class Matches extends Component {
         this.handleMatchAdd = this.handleMatchAdd.bind(this);
         this.handleMatchDrop = this.handleMatchDrop.bind(this);
         this.handleMatchesLoad = this.handleMatchesLoad.bind(this);
+        this.handleMatchesSubmit = this.handleMatchesSubmit.bind(this);
     }
 
     loadLeagues() {
@@ -32,6 +35,10 @@ class Matches extends Component {
 
     componentDidMount() {
         this.loadLeagues();
+    }
+
+    formatDate(date) {
+        return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
     }
 
     formatMatchTime(matchDate) {
@@ -50,16 +57,28 @@ class Matches extends Component {
 
         if (matchDate) {
             matchDate = new Date(matchDate);
-            matchDate = `${matchDate.getDate()}-${matchDate.getMonth() + 1}-${matchDate.getFullYear()}`;
+            this.setState({ date: matchDate });
+
+            matchDate = this.formatDate(matchDate);
 
             fetch(`${Constants.LISTMATCHESURL}?matchDate=` + matchDate)
             .then(response => response.json())
-            .then(data => this.setState({ matches: data.matches, selected: data.matches.reduce((selected, match) => {
-                if (match.use_match) {
-                    selected.push({ id: match.id, game_number: match.game_number });
-                }
-                return selected
-            }, [])}))
+            .then(data => this.setState((_) => {
+                let matches = [];
+                let matchLookup = {};
+                let selected = [];
+
+                data.matches.forEach(match => {
+                    matches.push(match)
+                    matchLookup[match.id] = match;
+
+                    if (match.use_match) {
+                        selected.push(match);
+                    }
+                });
+            
+                return { matches: matches, matchLookup: matchLookup, selected: selected };
+            }))
             .then(() => {
                 // sort
 
@@ -96,28 +115,58 @@ class Matches extends Component {
         }
     }
 
+    handleMatchesSubmit(_) {
+        if (this.state.selected.length !== 6) {
+            alert("Must select six matches");  // TODO: render into error component
+            return false;
+        }
+
+        const selected = this.state.selected.map(match => {
+            return { id: match.id, game_number: match.game_number };
+        })
+
+        fetch(Constants.ADDMATCHESURL,
+        {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(selected)
+        })
+        .then(response => response.json())
+        .then(data => alert(JSON.stringify(data)))
+        .catch(e => { alert(e) });
+    }
+
     handleMatchAdd(e) {
         let id = e.target.id.split("-");
 
         if (id.length == 2) {
             if (this.state.selected.length == 6) {
                 alert("Already selected six games.")  // TODO: error component for better rendering.
+                return null;
             }
 
             id = parseInt(id[1]);
             const gameNumbers = [1, 2, 3, 4, 5, 6];
+            let selected = [...this.state.selected];
 
-            for (let i = 0; i < this.state.selected.length; i++) {
-                if (this.state.selected[i].game_number !== gameNumbers[i]) {
-                    this.setState((oldState) => {
-                        let selected = [...oldState.selected];
-
-                        selected.splice(i, 0, { id: id, game_number: i });
-
-                        return { selected: selected };
-                    })
+            let inserted = false;
+            for (let i = 0; i < selected.length; i++) {
+                if (selected[i].game_number !== gameNumbers[i]) {
+                    let match = this.state.matchLookup[id];
+                    match.game_number = gameNumbers[i];
+                    selected.splice(i, 0, this.state.matchLookup[id]);
+                    inserted = true;
+                    break;
                 }
             } 
+            
+            if (!inserted) {
+                let match = this.state.matchLookup[id];
+                match.game_number = selected.length + 1;
+                selected.push(match);
+            }
+
+            this.setState({ selected: selected });
         }
     }
 
@@ -206,17 +255,27 @@ class Matches extends Component {
 
     // TODO: Add/Drop doesn't work properly - investigate.
     renderMatchSubmission() {
-        if (this.state.selected.length > 0) {
-            const gameNumbers = [1, 2, 3, 4, 5, 6];
+        const gameNumbers = [1, 2, 3, 4, 5, 6];
 
-            return (
-                <div className="matchsubmission">
-                    {gameNumbers.map((g, i) => {
-                        return <p>{g}: {this.state.selected.length >= g ? this.state.selected[i].id : null}</p>
-                    })}
-                </div>
-            )
-        }
+        return (
+            <div className="matchsubmission">
+                <h4>Selected Matches {this.state.date ? "for " + this.formatDate(this.state.date) : null}</h4>
+                {gameNumbers.map((g, i) => {
+                    return (
+                        <div className="matchsubmission-match">
+                            <div className="matchsubmission-match-section matchsubmission-match-id">
+                                {g}
+                            </div>
+                            <div className="matchsubmission-match-section">
+                                {this.state.selected.length >= g ? (this.state.selected[i].home_team + " Vs " + this.state.selected[i].away_team) : null}
+                            </div>
+                        </div>
+                    )
+                })}
+                <br />
+                {this.state.date ? <button className="matchsubmission-button" onClick={this.handleMatchesSubmit}>Submit</button> : null}
+            </div>
+        )
     }
 
     render() {
