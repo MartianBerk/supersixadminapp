@@ -121,11 +121,13 @@ class Matches extends Component {
             return false;
         }
 
+        const matchDate = this.formatDate(this.state.date);
         const selected = this.state.selected.map(match => {
             return { id: match.id, game_number: match.game_number };
         })
 
-        fetch(Constants.ADDMATCHESURL,
+        // TODO: refresh once submitted
+        fetch(`${Constants.ADDMATCHESURL}?matchDate=` + matchDate,
         {
             method: "POST",
             headers: {"Content-Type": "application/json"},
