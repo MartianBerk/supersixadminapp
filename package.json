@@ -11,6 +11,7 @@
     "react-scripts": "4.0.2",
     "web-vitals": "^1.1.0"
   },
+  "proxy": "https://superiorsix.co.uk",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

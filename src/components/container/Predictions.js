@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
-import * as Constants from "../constants";
+import * as Constants from "../constants.js";
+import PlayerPredictions from "./PlayerPredictions.js";
 
 import "../css/Predictions.css";
 
@@ -14,13 +15,14 @@ class Predictions extends Component {
             players: [],
             predictions: {},
             matches: [],
-            viewPredictions: null,
+            viewPredictionsList: [],
+            viewPredictionSubmit: null,
             error: false
         }
 
         this.handlePredictionsLoad = this.handlePredictionsLoad.bind(this);
         this.handlePlayerClick = this.handlePlayerClick.bind(this);
-        this.handlePredictionSelectorSubmit = this.handlePredictionSelectorSubmit.bind(this);
+        this.handlePlayerSelect = this.handlePlayerSelect.bind(this);
     }
 
     componentDidMount () {
@@ -98,12 +100,19 @@ class Predictions extends Component {
 
         if (id.length === 3) {
             id = parseInt(id[2]);
-            this.setState({ viewPredictions: this.state.viewPredictions === id ? null : id });
+            this.setState((oldState) => { 
+                let viewList = [...oldState.viewPredictionsList];
+
+                const index = viewList.indexOf(id)
+                index > -1 ? viewList.splice(index, 1) : viewList.push(id);
+                
+                return { viewPredictionsList: viewList }
+            });
         }
     }
 
-    handlePredictionSelectorSubmit (_) {
-
+    handlePlayerSelect (e) {
+        this.setState({ viewPredictionSubmit: e.target.value });
     }
 
     renderPredictions () {
@@ -118,10 +127,26 @@ class Predictions extends Component {
                     return (
                         <div
                             className={"predictionslist-player" + (i % 2 === 0 ? " predictions-even" : " predictions-odd")}
-                            id={"predictionslist-player-" + player.id}
-                            onClick={this.handlePlayerClick}>
-                            <span className="predictionslist-player-name">{player.name}</span>
-                            <span className="predictionslist-player-expand"><img src={this.state.viewPredictions ===  player.id ? 'shrink.png' : 'expand.png'} width="10" height="10" /></span>
+                            id={"predictionslist-player-" + player.id}>
+                            <span className="predictionslist-player-name" id={"predictionslist-playername-" + player.id}>
+                                {player.name}
+                            </span>
+                            <span className="predictionslist-player-expand" id={"predictionslist-playercount-" + player.id}>
+                                ({(this.state.predictions[player.id] || {predictions: []}).predictions.length})
+                                <img 
+                                    src={this.state.viewPredictionsList.indexOf(player.id) > -1 ? 'shrink.png' : 'expand.png'} 
+                                    width="10" 
+                                    height="10" 
+                                    onClick={this.handlePlayerClick} 
+                                    id={"predictionslist-playerexpand-" + player.id}
+                                />
+                            </span>
+                            {this.state.viewPredictionsList.indexOf(player.id) > -1
+                            && <PlayerPredictions 
+                                id={"predictionslist-playerexpand-" + player.id}
+                                className="predictionslist-predictions" 
+                                predictions={this.state.predictions[player.id].predictions}
+                            />}
                         </div>
                     )
                 })}
@@ -137,7 +162,7 @@ class Predictions extends Component {
         return (
             <div className="predictionselector">
                 <h4>Player</h4>
-                <select className="predictions-input" id="predictionselector-player">
+                <select className="predictions-input" id="predictionselector-player" onChange={this.handlePlayerSelect}>
                     <option value=""></option>
                     { 
                         this.state.players.map(player => {
@@ -147,9 +172,12 @@ class Predictions extends Component {
                         })
                     }
                 </select>
-                <button className="predictions-button" onClick={this.handlePredictionSelectorSubmit}> 
-                    Submit
-                </button>
+                {this.state.viewPredictionSubmit && <PlayerPredictions 
+                                                     id={"predictionselector-predictions-" + this.state.viewPredictionSubmit}
+                                                     className="predictionselector-predictions" 
+                                                     predictions={this.state.predictions[this.state.viewPredictionSubmit].predictions}
+                                                     edit={true}
+                                                     />}
             </div>
         )
     }

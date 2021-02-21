@@ -11,6 +11,12 @@
     float: left;
 }
 
+.predictionslist-predictions {
+    margin-top: 30px;
+    height: 100%;
+    overflow-y: scroll;
+}
+
 .predictions-input {
     background-color: #454242;
     color: #ccccc3;
@@ -51,6 +57,10 @@
     text-align: right;
     float: right;
     padding-right: 10px;
+}
+
+.predictionslist-player-expand img {
+    padding-left: 10px;
 }
 
 .predictions-even {

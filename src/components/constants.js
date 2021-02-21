@@ -1,4 +1,4 @@
-export const BASEURL = "http://192.168.0.37:5000/webapis/supersix/admin";
+export const BASEURL = "https://superiorsix.co.uk/webapis/supersix/admin";
 
 export const CURRENTROUNDURL = BASEURL + "/currentround";
 export const HISTORICROUNDSURL = BASEURL + "/historicrounds";
@@ -13,3 +13,4 @@ export const ADDMATCHESURL = BASEURL + "/addmatches";
 export const LISTLEAGUESURL = BASEURL + "/listleagues";
 
 export const LISTPREDICTIONSURL = BASEURL + "/listpredictions";
+export const ADDPREDICTIONSURL = BASEURL + "/addpredictions";
