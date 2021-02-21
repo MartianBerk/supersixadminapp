@@ -11,3 +11,5 @@ export const LISTMATCHESURL = BASEURL + "/listmatches";
 export const ADDMATCHESURL = BASEURL + "/addmatches";
 
 export const LISTLEAGUESURL = BASEURL + "/listleagues";
+
+export const LISTPREDICTIONSURL = BASEURL + "/listpredictions";

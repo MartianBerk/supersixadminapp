@@ -197,18 +197,15 @@ class Matches extends Component {
     }
 
     renderMatchSelector() {
+        if (this.state.matches.length === 0) {
+            return null;
+        }
+        
         let leagueMarker = 0
         const selected = this.state.selected.map(s => { return s.id });
 
         return (
             <div className="matchselector">
-                <div className="matchselector-load">
-                    <h4>Match Date</h4>
-                    <input className="matchselector-load" type="date" id="matchselector-date" />
-                    <button className="matchselector-button" id="matchselector-load" onClick={this.handleMatchesLoad}> 
-                        Load Matches
-                    </button>
-                </div>
                 <div className="matchselector-submit">
                     {this.state.matches.map(match => {
                         const row = match.home_team + " Vs " + match.away_team + " - " + this.formatMatchTime(match.match_date);
@@ -256,6 +253,10 @@ class Matches extends Component {
 
     // TODO: Add/Drop doesn't work properly - investigate.
     renderMatchSubmission() {
+        if (this.state.matches.length === 0) {
+            return null;
+        }
+
         const gameNumbers = [1, 2, 3, 4, 5, 6];
 
         return (
@@ -283,6 +284,13 @@ class Matches extends Component {
         return (
             <div className="matches-container">
                 <h2>Matches</h2>
+                <div className="matchselector-load">
+                    <h4>Match Date</h4>
+                    <input className="matchselector-load" type="date" id="matchselector-date" />
+                    <button className="matchselector-button" id="matchselector-load" onClick={this.handleMatchesLoad}> 
+                        Load Matches
+                    </button>
+                </div>
                 {[
                     this.renderMatchSelector(),
                     this.renderMatchSubmission()
