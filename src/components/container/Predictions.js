@@ -36,7 +36,22 @@ class Predictions extends Component {
         .catch(_ => this.setState({ error: true }));
     }
 
-    getMatches(matchDate) {
+    // getMatches(matchDate) {
+    //     matchDate = this.formatDate(matchDate);
+
+    //     fetch(`${Constants.LISTMATCHESURL}?matchDate=` + matchDate)
+    //     .then(response => response.json())
+    //     .then(data => this.setState({ matches: data.matches.reduce((matches, match) => {
+    //         if (match.use_match) {
+    //             matches.push(match);
+    //         }
+
+    //         return matches;
+    //     }, []) }))
+    //     .catch(/* do nothing */)
+    // }
+
+    getData(matchDate) {
         matchDate = this.formatDate(matchDate);
 
         fetch(`${Constants.LISTMATCHESURL}?matchDate=` + matchDate)
@@ -47,7 +62,10 @@ class Predictions extends Component {
             }
 
             return matches;
-        }, []) }))
+        }, []) }, () => {
+            // collection players and predictions after matches obtained
+            this.getPlayersAndPredictions(matchDate);
+        }))
         .catch(/* do nothing */)
     }
 
@@ -66,13 +84,28 @@ class Predictions extends Component {
     }
 
     getPredictions (matchDate, playerId) {
-        matchDate = this.formatDate(matchDate);
+        // matchDate = this.formatDate(matchDate);
 
         fetch(`${Constants.LISTPREDICTIONSURL}?round=${this.state.currentRound.round_id}&matchdate=${matchDate}&playerid=${playerId}`)
         .then(response => response.json())
         .then(data => this.setState((oldState) => {
             let predictions = {...oldState.predictions};
-            predictions[playerId] = data;
+
+            if (data.predictions.length > 0) {
+                predictions[playerId] = data.predictions;
+            }
+            else {
+                predictions[playerId] = this.state.matches.map(match => {
+                    return {
+                        round_id: this.state.currentRound.round_id,
+                        player_id: playerId,
+                        match_id: match.id,
+                        home_team: match.home_team,
+                        away_team: match.away_team,
+                        prediction: null
+                    }
+                });
+            }
 
             return { predictions: predictions };
         }))
@@ -90,8 +123,9 @@ class Predictions extends Component {
             matchDate = new Date(matchDate);
             this.setState({ date: matchDate });
 
-            this.getMatches(matchDate);
-            this.getPlayersAndPredictions(matchDate);
+            this.getData(matchDate);
+            // this.getMatches(matchDate);
+            // this.getPlayersAndPredictions(matchDate);
         }
     }
 
@@ -132,7 +166,11 @@ class Predictions extends Component {
                                 {player.name}
                             </span>
                             <span className="predictionslist-player-expand" id={"predictionslist-playercount-" + player.id}>
-                                ({(this.state.predictions[player.id] || {predictions: []}).predictions.length})
+                                ({(this.state.predictions[player.id] || []).filter(prediction => {
+                                    if (prediction.prediction) {
+                                        return prediction
+                                    }
+                                }).length})
                                 <img 
                                     src={this.state.viewPredictionsList.indexOf(player.id) > -1 ? 'shrink.png' : 'expand.png'} 
                                     width="10" 
@@ -145,7 +183,7 @@ class Predictions extends Component {
                             && <PlayerPredictions 
                                 id={"predictionslist-playerexpand-" + player.id}
                                 className="predictionslist-predictions" 
-                                predictions={this.state.predictions[player.id].predictions}
+                                predictions={this.state.predictions[player.id]}
                             />}
                         </div>
                     )
@@ -175,7 +213,7 @@ class Predictions extends Component {
                 {this.state.viewPredictionSubmit && <PlayerPredictions 
                                                      id={"predictionselector-predictions-" + this.state.viewPredictionSubmit}
                                                      className="predictionselector-predictions" 
-                                                     predictions={this.state.predictions[this.state.viewPredictionSubmit].predictions}
+                                                     predictions={this.state.predictions[this.state.viewPredictionSubmit]}
                                                      edit={true}
                                                      />}
             </div>
