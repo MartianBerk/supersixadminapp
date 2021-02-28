@@ -50,12 +50,15 @@ class PlayerPredictions extends Component {
             })
         });
 
+        console.log(predictions)
+
         fetch(`${Constants.ADDPREDICTIONSURL}/addpredictions`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: predictions
         })
-        .then();
+        .then()
+        .catch(error => JSON.stringify(error));
     }
 
     render () {

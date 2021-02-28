@@ -1,5 +1,6 @@
 {
   "name": "supersixadminapp",
+  "homepage": "https://superiorsix.co.uk/supersixadmin",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
