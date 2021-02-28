@@ -36,24 +36,42 @@ class SupersixAdmin extends Component {
             <div className="supersixadmin-container">
                 <div className="head">
                     <div className="logo">
-                        <img id="supersixadmin-logo" src='logo.png' height='70' width='80' /> 
+                        <img id="supersixadmin-logo" src={`${process.env.PUBLIC_URL}/logo.png`} height='70' width='80' /> 
                     </div>
                 </div>
                 <div className="supersixadmin-menu">
                     <button 
                         className={`supersixadmin-menu-button ${this.state.showRound ? "active" : ""}`}
                         id="supersixadmin-round"
-                        onClick={this.handleMenuClick}><img id="supersixadmin-round-img" onClick={this.handleMenuClick} src='round.png' height='40' width='40' /> 
+                        onClick={this.handleMenuClick}><img
+                                                            id="supersixadmin-round-img"
+                                                            onClick={this.handleMenuClick}
+                                                            src={`${process.env.PUBLIC_URL}/round.png`}
+                                                            height='40'
+                                                            width='40'
+                                                        /> 
                     </button>
                     <button 
                         className={`supersixadmin-menu-button ${this.state.showMatches ? "active" : ""}`}
                         id="supersixadmin-matches"
-                        onClick={this.handleMenuClick}><img id="supersixadmin-matches-img" onClick={this.handleMenuClick} src='matches.png' height='40' width='40' /> 
+                        onClick={this.handleMenuClick}><img
+                                                            id="supersixadmin-matches-img"
+                                                            onClick={this.handleMenuClick}
+                                                            src={`${process.env.PUBLIC_URL}/matches.png`}
+                                                            height='40'
+                                                            width='40'
+                                                        /> 
                     </button>
                     <button 
                         className={`supersixadmin-menu-button ${this.state.showPredictions ? "active" : ""}`}
                         id="supersixadmin-predictions"
-                        onClick={this.handleMenuClick}><img id="supersixadmin-predictions-img" onClick={this.handleMenuClick} src='predictions.png' height='40' width='40' /> 
+                        onClick={this.handleMenuClick}><img
+                                                            id="supersixadmin-predictions-img"
+                                                            onClick={this.handleMenuClick}
+                                                            src={`${process.env.PUBLIC_URL}/predictions.png`}
+                                                            height='40'
+                                                            width='40'
+                                                        /> 
                     </button>
                 </div>
                 <div className={`supersixadmin supersixadmin-round ${this.state.showRound ? "" : "hidden"}`}>
