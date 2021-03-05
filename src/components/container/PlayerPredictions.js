@@ -53,7 +53,7 @@ class PlayerPredictions extends Component {
         fetch(`${Constants.ADDPREDICTIONSURL}`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: predictions
+            body: JSON.stringify(predictions)
         })
         .then()
         .catch(error => JSON.stringify(error));
