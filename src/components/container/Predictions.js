@@ -94,11 +94,8 @@ class Predictions extends Component {
             
             if (data.predictions.length > 0) {
                 savedPredictions[playerId] = data.predictions.reduce((predictionMap, prediction) => {
-                    return {
-                        ...obj,
-                        matchId: prediction.matchId,
-                        prediction: prediction.prediction
-                    }
+                    predictionMap[prediction.match_id] = prediction.prediction;
+                    return predictionMap;
                 }, {});
             }
             
@@ -109,7 +106,9 @@ class Predictions extends Component {
                     match_id: match.id,
                     home_team: match.home_team,
                     away_team: match.away_team,
-                    prediction: savedPrediction[playerId][match.id].prediction or null
+                    prediction: savedPredictions[playerId] ?
+                                savedPredictions[playerId][match.id] ? savedPredictions[playerId][match.id] : null
+                                : null
                 }
             });
 
