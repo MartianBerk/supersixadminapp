@@ -90,22 +90,28 @@ class Predictions extends Component {
         .then(response => response.json())
         .then(data => this.setState((oldState) => {
             let predictions = {...oldState.predictions};
-
+            let savedPredictions = {};
+            
             if (data.predictions.length > 0) {
-                predictions[playerId] = data.predictions;
-            }
-            else {
-                predictions[playerId] = this.state.matches.map(match => {
+                savedPredictions[playerId] = data.predictions.reduce((predictionMap, prediction) => {
                     return {
-                        round_id: this.state.currentRound.round_id,
-                        player_id: playerId,
-                        match_id: match.id,
-                        home_team: match.home_team,
-                        away_team: match.away_team,
-                        prediction: null
+                        ...obj,
+                        matchId: prediction.matchId,
+                        prediction: prediction.prediction
                     }
-                });
+                }, {});
             }
+            
+            predictions[playerId] = this.state.matches.map(match => {
+                return {
+                    round_id: this.state.currentRound.round_id,
+                    player_id: playerId,
+                    match_id: match.id,
+                    home_team: match.home_team,
+                    away_team: match.away_team,
+                    prediction: savedPrediction[playerId][match.id].prediction or null
+                }
+            });
 
             return { predictions: predictions };
         }))
