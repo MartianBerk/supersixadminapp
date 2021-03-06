@@ -101,7 +101,7 @@ class Round extends Component {
 
     handleCreateRound(_) {
         let startDate = document.getElementById("createround-startdate").value;
-        const buyIn = parseInt(document.getElementById("createround-buyin").value);
+        const buyIn = parseInt(document.getElementById("createround-buyin").value) * 100;
 
         this.setState({
             confirm: `Adding round to start on ${this.formatDate(startDate)} with a buy in of £${buyIn}.\nProceed?`,
