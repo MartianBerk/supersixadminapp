@@ -189,6 +189,7 @@ class Predictions extends Component {
                                 id={"predictionslist-playerexpand-" + player.id}
                                 className="predictionslist-predictions" 
                                 predictions={this.state.predictions[player.id]}
+                                playerId={player.id}
                             />}
                         </div>
                     )
@@ -219,6 +220,7 @@ class Predictions extends Component {
                                                      id={"predictionselector-predictions-" + this.state.viewPredictionSubmit}
                                                      className="predictionselector-predictions" 
                                                      predictions={this.state.predictions[this.state.viewPredictionSubmit]}
+                                                     playerId={this.state.viewPredictionSubmit}
                                                      edit={true}
                                                      />}
             </div>

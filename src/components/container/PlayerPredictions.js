@@ -9,11 +9,21 @@ class PlayerPredictions extends Component {
         super(props);
 
         this.state = {
+            playerId: this.props.playerId,
             predictions: this.props.predictions
         }
 
         this.handlePredictionSelect = this.handlePredictionSelect.bind(this);
         this.handlePredictionSubmit = this.handlePredictionSubmit.bind(this);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.playerId !== prevProps.playerId) {
+            this.setState({
+                playerId: this.props.playerId,
+                predictions: this.props.predictions
+            });
+        }
     }
 
     handlePredictionSelect (e) {
@@ -50,13 +60,13 @@ class PlayerPredictions extends Component {
             })
         });
 
-        fetch(`${Constants.ADDPREDICTIONSURL}`, {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(predictions)
-        })
-        .then()
-        .catch(error => JSON.stringify(error));
+        // fetch(`${Constants.ADDPREDICTIONSURL}`, {
+        //     method: "POST",
+        //     headers: {"Content-Type": "application/json"},
+        //     body: JSON.stringify(predictions)
+        // })
+        // .then()
+        // .catch(error => JSON.stringify(error));
     }
 
     render () {
