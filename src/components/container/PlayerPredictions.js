@@ -60,13 +60,13 @@ class PlayerPredictions extends Component {
             })
         });
 
-        // fetch(`${Constants.ADDPREDICTIONSURL}`, {
-        //     method: "POST",
-        //     headers: {"Content-Type": "application/json"},
-        //     body: JSON.stringify(predictions)
-        // })
-        // .then()
-        // .catch(error => JSON.stringify(error));
+        fetch(`${Constants.ADDPREDICTIONSURL}`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(predictions)
+        })
+        .then()
+        .catch(error => JSON.stringify(error));
     }
 
     render () {
