@@ -15,7 +15,7 @@
 
 .currentround-section {
     float: left;
-    width: 20%;
+    width: 16%;
 }
 
 .historicround-section {
@@ -24,12 +24,17 @@
     width: 16%;
 }
 
+.currentround-message {
+    background-color: #454242;
+    color: #ccccc3;
+}
+
 .currentround-winner {
     background-color: #454242;
     color: #ccccc3;
     font-weight: bold;
     width: 125px;
-    height: 25px;
+    height: 20px;
     margin: auto;
 }
 
@@ -38,6 +43,15 @@
     color: #ccccc3;
     font-weight: bold;
     width: 125px;
+    height: 25px;
+    margin: auto;
+}
+
+.currentround-message-button {
+    background-color: #454242;
+    color: #ccccc3;
+    font-weight: bold;
+    width: 65px;
     height: 25px;
     margin: auto;
 }

@@ -14,3 +14,7 @@ export const LISTLEAGUESURL = BASEURL + "/listleagues";
 
 export const LISTPREDICTIONSURL = BASEURL + "/listpredictions";
 export const ADDPREDICTIONSURL = BASEURL + "/addpredictions";
+
+export const GETSPECIALMESSAGEURL = BASEURL + "/getspecialmessage";
+export const SETSPECIALMESSAGEURL = BASEURL + "/setspecialmessage";
+export const ENDSPECIALMESSAGEURL = BASEURL + "/endspecialmessage";

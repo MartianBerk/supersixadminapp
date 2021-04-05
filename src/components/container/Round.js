@@ -15,11 +15,15 @@ class Round extends Component {
             error: false,
             confirm: null,
             confirmYesAction: null,
-            confirmNoAction: null
+            confirmNoAction: null,
+            specialMessage: null
         };
 
         this.defaultBuyin = 2;
 
+        this.handleMessageChange = this.handleMessageChange.bind(this);
+        this.handleMessageSubmit = this.handleMessageSubmit.bind(this);
+        this.handleMessageClear = this.handleMessageClear.bind(this);
         this.handleWinnerSubmit = this.handleWinnerSubmit.bind(this);
         this.handleCreateRound = this.handleCreateRound.bind(this);
         this.handleConfirmationClick = this.handleConfirmationClick.bind(this);
@@ -48,10 +52,18 @@ class Round extends Component {
         .catch(_ => this.setState({ error: true }));
     }
 
+    getSpecialMessage() {
+        fetch(Constants.GETSPECIALMESSAGEURL)
+        .then(response => response.json())
+        .then(data => this.setState({ specialMessage: data.message }))
+        .catch(_ => this.setState({ error: true }));
+    }
+
     componentDidMount() {
         this.getCurrentRound();
         this.getHistoricRounds();
         this.getPlayers();
+        this.getSpecialMessage();
     }
 
     handleWinnerSubmit(_) {
@@ -85,6 +97,36 @@ class Round extends Component {
                 document.getElementById("currentround-winner").value = null;
             })
         });
+    }
+
+    handleMessageChange(_) {
+        this.setState({ specialMessage: document.getElementById("currentround-message").value });
+    }
+
+    handleMessageSubmit(_) {
+        const message = document.getElementById("currentround-message").value;
+
+        this.setState({
+            confirm: `Submitting special message '${message}'.\nProceed?`,
+            confirmYesAction: (() => {
+                fetch(Constants.SETSPECIALMESSAGEURL, {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({
+                        message: message
+                    })
+                })
+                .then(this.setState({ specialMessage: message }))
+                .catch(e => alert(e));
+            }),
+            confirmNoAction: (() => {
+                document.getElementById("currentround-message").value = null;
+            })
+        });
+    }
+
+    handleMessageClear(_) {
+
     }
 
     handleCreateRound(_) {
@@ -151,6 +193,17 @@ class Round extends Component {
                     <div className="currentround-section">
                         <h4>Jackpot</h4>
                         <h5>£{ this.state.currentRound.jackpot / 100 }</h5>
+                    </div>
+                    <div className="currentround-section">
+                        <h4>Special Message</h4>
+                        <input className="currentround-message" id="currentround-message" type="text" value={this.state.specialMessage} onChange={this.handleMessageChange} />
+                        <br /><br />
+                        <button className="currentround-message-button" id="currentround-submit-message" onClick={this.handleMessageSubmit}>
+                            Submit
+                        </button>
+                        <button className="currentround-message-button" id="currentround-clear-message" onClick={this.handleMessageClear}>
+                            Clear
+                        </button>
                     </div>
                     <div className="currentround-section">
                         <h4>Winner</h4>
