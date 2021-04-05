@@ -117,7 +117,7 @@ class Round extends Component {
                     })
                 })
                 .then(this.setState({ specialMessage: message }))
-                .catch(e => alert(e));
+                .catch(/* do nothing */);
             }),
             confirmNoAction: (() => {
                 document.getElementById("currentround-message").value = null;
@@ -126,7 +126,15 @@ class Round extends Component {
     }
 
     handleMessageClear(_) {
-
+        this.setState({
+            confirm: `Clearing special message.\nProceed?`,
+            confirmYesAction: (() => {
+                fetch(Constants.ENDSPECIALMESSAGEURL)
+                .then(this.setState({ specialMessage: null }))
+                .catch(/* do nothing */);
+            }),
+            confirmNoAction: (() => {/* do nothing */})
+        });
     }
 
     handleCreateRound(_) {
