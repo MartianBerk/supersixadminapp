@@ -90,22 +90,27 @@ class Predictions extends Component {
         .then(response => response.json())
         .then(data => this.setState((oldState) => {
             let predictions = {...oldState.predictions};
-
+            let savedPredictions = {};
+            
             if (data.predictions.length > 0) {
-                predictions[playerId] = data.predictions;
+                savedPredictions[playerId] = data.predictions.reduce((predictionMap, prediction) => {
+                    predictionMap[prediction.match_id] = prediction.prediction;
+                    return predictionMap;
+                }, {});
             }
-            else {
-                predictions[playerId] = this.state.matches.map(match => {
-                    return {
-                        round_id: this.state.currentRound.round_id,
-                        player_id: playerId,
-                        match_id: match.id,
-                        home_team: match.home_team,
-                        away_team: match.away_team,
-                        prediction: null
-                    }
-                });
-            }
+            
+            predictions[playerId] = this.state.matches.map(match => {
+                return {
+                    round_id: this.state.currentRound.round_id,
+                    player_id: playerId,
+                    match_id: match.id,
+                    home_team: match.home_team,
+                    away_team: match.away_team,
+                    prediction: savedPredictions[playerId] ?
+                                savedPredictions[playerId][match.id] ? savedPredictions[playerId][match.id] : null
+                                : null
+                }
+            });
 
             return { predictions: predictions };
         }))
@@ -184,6 +189,7 @@ class Predictions extends Component {
                                 id={"predictionslist-playerexpand-" + player.id}
                                 className="predictionslist-predictions" 
                                 predictions={this.state.predictions[player.id]}
+                                playerId={player.id}
                             />}
                         </div>
                     )
@@ -214,6 +220,7 @@ class Predictions extends Component {
                                                      id={"predictionselector-predictions-" + this.state.viewPredictionSubmit}
                                                      className="predictionselector-predictions" 
                                                      predictions={this.state.predictions[this.state.viewPredictionSubmit]}
+                                                     playerId={this.state.viewPredictionSubmit}
                                                      edit={true}
                                                      />}
             </div>

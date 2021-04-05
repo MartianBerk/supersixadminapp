@@ -83,15 +83,27 @@ class Round extends Component {
         this.setState({
             confirm: `Ending round with winner ${winner} on ${this.formatDate(this.state.currentRound.current_match_date)}.\nProceed?`,
             confirmYesAction: (() => {
+                let winnerIds = [];
+
+                const opts = document.getElementById("currentround-winner").options;
+                for(var i = 0; i < opts.length; i++) {
+                    if(opts[i].selected)
+                        winnerIds.push(parseInt(opts[i].value))
+                }
+
+                let endDate = new Date(this.state.currentRound.current_match_date)
+                endDate = `${endDate.getDate()}-${endDate.getMonth() + 1}-${endDate.getFullYear()}`;
+
                 fetch(Constants.ENDROUNDURL, {
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
                     body: JSON.stringify({
-                        winner_id: document.getElementById("currentround-winner").value,
-                        end_date: this.state.currentRound.end_date
+                        winner_ids: winnerIds,
+                        end_date: endDate
                     })
                 })
-                .then(/* TODO: reload? */);
+                .then(/* reload? */)
+                
             }),
             confirmNoAction: (() => {
                 document.getElementById("currentround-winner").value = null;
@@ -138,12 +150,15 @@ class Round extends Component {
     }
 
     handleCreateRound(_) {
-        const startDate = document.getElementById("currentround-startdate").value;
-        const buyIn = document.getElementById("currentround-buyin").value;
+        let startDate = document.getElementById("createround-startdate").value;
+        const buyIn = parseInt(document.getElementById("createround-buyin").value) * 100;
 
         this.setState({
             confirm: `Adding round to start on ${this.formatDate(startDate)} with a buy in of £${buyIn}.\nProceed?`,
             confirmYesAction: (() => {
+                startDate = new Date(startDate)
+                startDate = `${startDate.getDate()}-${startDate.getMonth() + 1}-${startDate.getFullYear()}`;
+
                 fetch(Constants.ADDROUNDURL, {
                     method: "POST",
                     headers: {"Content-Type": "application/json"},
@@ -182,7 +197,7 @@ class Round extends Component {
     }
 
     renderCurrentRound() {
-        if (Object.keys(this.state.currentRound).length > 0) {
+        if (this.state.currentRound && Object.keys(this.state.currentRound).length > 0) {
             return (
                 <div className="currentround">
                     <h2>Current Round</h2>
@@ -215,7 +230,7 @@ class Round extends Component {
                     </div>
                     <div className="currentround-section">
                         <h4>Winner</h4>
-                        <select id="currentround-winner" className="currentround-winner">
+                        <select id="currentround-winner" className="currentround-winner" multiple>
                             <option value=""></option>
                             { 
                                 this.state.players.map(player => {
