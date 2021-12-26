@@ -208,7 +208,7 @@ class Matches extends Component {
             <div className="matchselector">
                 <div className="matchselector-submit">
                     {this.state.matches.map(match => {
-                        const row = match.home_team + " Vs " + match.away_team + " - " + this.formatMatchTime(match.match_date);
+                        const row = match.home_team + " Vs " + match.away_team + " - " + this.formatMatchTime(match.match_date) + " (" + match.status + ")";
 
                         if (match.league_id !== leagueMarker) {
                             leagueMarker = match.league_id;
