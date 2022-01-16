@@ -1,0 +1,47 @@
+.playerprediction-section, .playerprediction-section-edit {
+    padding: 3px 0px 3px 0px;
+}
+
+.playerpredictions-edit {
+    margin-top: 5px;
+}
+
+.playerpredictions-edit {
+    overflow: hidden;
+}
+
+.playerprediction-section-edit{
+    float: left;
+    width: 50%;
+}
+
+.playerprediction-subsection {
+    padding: 0px 3px 0px 3px;
+    font-weight: normal;
+}
+
+.playerprediction-pick {
+    font-weight: bold;
+}
+
+.playerprediction-section-buttons-edit {
+    padding-left: 50px;
+    position: absolute;
+}
+
+.playerprediction-section-edit select {
+    background-color: #454242;
+    color: #ccccc3;
+    font-weight: bold;
+    text-align: center;
+}
+
+.playerprediction-button {
+    background-color: #454242;
+    color: #ccccc3;
+    font-weight: bold;
+    width: 125px;
+    height: 25px;
+    margin: auto;
+    margin: 10px 20px 0px 0px;
+}

@@ -1,0 +1,117 @@
+.rounds {
+    background-color: #454242;
+    color: #ccccc3;
+    width: 100%;
+    margin: auto;
+}
+
+.currentround, .historicround {
+    overflow: hidden;
+}
+
+.historicround {
+    overflow-y: scroll;
+}
+
+.currentround-section {
+    float: left;
+    width: 16%;
+}
+
+.historicround-section {
+    float: left;
+    padding-left: 5px;
+    width: 16%;
+}
+
+.currentround-message {
+    background-color: #454242;
+    color: #ccccc3;
+}
+
+.currentround-winner {
+    background-color: #454242;
+    color: #ccccc3;
+    font-weight: bold;
+    width: 125px;
+    height: 20px;
+    margin: auto;
+}
+
+.currentround-submit {
+    background-color: #454242;
+    color: #ccccc3;
+    font-weight: bold;
+    width: 125px;
+    height: 25px;
+    margin: auto;
+}
+
+.currentround-message-button {
+    background-color: #454242;
+    color: #ccccc3;
+    font-weight: bold;
+    width: 65px;
+    height: 25px;
+    margin: auto;
+}
+
+.confirm-container {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+}
+
+.confirm-container hidden {
+    display: None;
+}
+
+.confirm {
+    height: 40%;
+    width: 50%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color:  rgba(0, 0, 0, 0.8);
+    vertical-align: middle;
+    line-height: 80px;
+    font-weight: bold;
+}
+
+.confirm-buttons {
+    overflow: hidden;
+}
+
+.confirm-buttons .confirm-button {
+    width: 75px;
+    height: 25px;
+    margin: 20px;
+}
+
+#confirm-yes {
+    background-color: #269726;
+}
+
+#confirm-no {
+    background-color: #962f16;
+}
+
+.currentround-create-fields {
+    overflow: hidden;
+    margin: -20px;
+}
+
+.currentround-create-field {
+    float: left;
+    width: 50%;
+    margin-bottom: 40px;
+}
+
+.currentround-create-field input {
+    background-color: #454242;
+    color: #ccccc3;
+    font-weight: bold;
+    text-align: center;
+}

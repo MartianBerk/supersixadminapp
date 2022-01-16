@@ -1,0 +1,72 @@
+.predictions-container {
+    background-color: #454242;
+    color: #ccccc3;
+    height: 90%;
+    overflow-y: scroll;
+}
+
+.predictionslist, .predictionselector {
+    width: 50%;
+    margin: auto;
+    float: left;
+}
+
+.predictionslist-predictions {
+    margin-top: 30px;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.predictions-input {
+    background-color: #454242;
+    color: #ccccc3;
+    font-weight: bold;
+    text-align: center;
+}
+
+.predictions-button {
+    background-color: #454242;
+    color: #ccccc3;
+    font-weight: bold;
+    width: 125px;
+    height: 25px;
+    margin: auto;
+    margin-left: 20px;
+}
+
+.predictionslist-player {
+    color: #000000;
+    font-weight: bold;
+    width: 60%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.predictionslist-player {
+    padding: 5px 0px 5px 0px;
+}
+
+.predictionslist-player-name {
+    text-align: left;
+    float: left;
+    width: 50%;
+    padding-left: 10px;
+}
+
+.predictionslist-player-expand {
+    text-align: right;
+    float: right;
+    padding-right: 10px;
+}
+
+.predictionslist-player-expand img {
+    padding-left: 10px;
+}
+
+.predictions-even {
+    background-color: #918989;
+}
+
+.predictions-odd {
+    background-color: #746d6d;
+}
